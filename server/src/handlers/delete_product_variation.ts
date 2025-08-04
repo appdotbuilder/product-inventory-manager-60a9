@@ -1,7 +1,15 @@
 
+import { db } from '../db';
+import { productVariationsTable } from '../db/schema';
+import { eq } from 'drizzle-orm';
+
 export async function deleteProductVariation(id: number): Promise<void> {
-    // This is a placeholder declaration! Real code should be implemented here.
-    // The goal of this handler is deleting a product variation from the database.
-    // Should remove the variation with the given id from the product_variations table.
-    return Promise.resolve();
+  try {
+    await db.delete(productVariationsTable)
+      .where(eq(productVariationsTable.id, id))
+      .execute();
+  } catch (error) {
+    console.error('Product variation deletion failed:', error);
+    throw error;
+  }
 }

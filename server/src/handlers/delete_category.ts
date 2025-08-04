@@ -1,7 +1,15 @@
 
-export async function deleteCategory(id: number): Promise<void> {
-    // This is a placeholder declaration! Real code should be implemented here.
-    // The goal of this handler is deleting a category from the database.
-    // Should remove the category with the given id from the categories table.
-    return Promise.resolve();
-}
+import { db } from '../db';
+import { categoriesTable } from '../db/schema';
+import { eq } from 'drizzle-orm';
+
+export const deleteCategory = async (id: number): Promise<void> => {
+  try {
+    await db.delete(categoriesTable)
+      .where(eq(categoriesTable.id, id))
+      .execute();
+  } catch (error) {
+    console.error('Category deletion failed:', error);
+    throw error;
+  }
+};
